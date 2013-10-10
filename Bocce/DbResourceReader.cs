@@ -9,7 +9,7 @@ namespace Bocce
 	/// Implementation of IResourceReader required to retrieve a dictionary
 	/// of resource values for implicit localization. 
 	/// </summary>
-	internal sealed class DbResourceReader : IResourceReader, IDisposable
+	internal sealed class DbResourceReader : IResourceReader
 	{
 		private IEnumerable<KeyValuePair<string, string>> _resources;
 
@@ -54,7 +54,7 @@ namespace Bocce
 
 		void IDisposable.Dispose()
 		{
-			IDisposable resources = _resources as IDisposable;
+			var resources = _resources as IDisposable;
 
 			if (resources != null)
 			{
@@ -68,7 +68,7 @@ namespace Bocce
 
 		private sealed class MyDictionaryEnumerator : IDictionaryEnumerator
 		{
-			private IEnumerator<KeyValuePair<string, string>> _underlyingEnumerator;
+			private readonly IEnumerator<KeyValuePair<string, string>> _underlyingEnumerator;
 			private DictionaryEntry _current;
 
 			public MyDictionaryEnumerator(IEnumerator<KeyValuePair<string, string>> underlyingEnumerator)
@@ -106,11 +106,9 @@ namespace Bocce
 					_current = new DictionaryEntry(underlyingCurrent.Key, underlyingCurrent.Value);
 					return true;
 				}
-				else
-				{
-					_current = new DictionaryEntry();
-					return false;
-				}
+			    
+                _current = new DictionaryEntry();
+			    return false;
 			}
 
 			public void Reset()

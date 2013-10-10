@@ -13,7 +13,7 @@ namespace Bocce
     /// </summary>
     public class ExternalResourceExpressionBuilder : ExpressionBuilder
     {
-        private static ResourceProviderFactory s_resourceProviderFactory;
+        private static ResourceProviderFactory _sResourceProviderFactory;
 
         public ExternalResourceExpressionBuilder()
         {
@@ -23,17 +23,17 @@ namespace Bocce
 
         public static object GetGlobalResourceObject(string classKey, string resourceKey)
         {
-            Debug.WriteLine(String.Format(CultureInfo.InvariantCulture, "ExternalResourceExpressionBuilder.GetGlobalResourceObject({0}, {1})", classKey, resourceKey));
+            Debug.WriteLine(string.Format(CultureInfo.InvariantCulture, "ExternalResourceExpressionBuilder.GetGlobalResourceObject({0}, {1})", classKey, resourceKey));
 
-            return ExternalResourceExpressionBuilder.GetGlobalResourceObject(classKey, resourceKey, null);
+            return GetGlobalResourceObject(classKey, resourceKey, null);
         }
 
         public static object GetGlobalResourceObject(string classKey, string resourceKey, CultureInfo culture)
         {
             Debug.WriteLine(String.Format(CultureInfo.InvariantCulture, "ExternalResourceExpressionBuilder.GetGlobalResourceObject({0}, {1}, {2})", classKey, resourceKey, culture));
 
-            ExternalResourceExpressionBuilder.EnsureResourceProviderFactory();
-            IResourceProvider provider = ExternalResourceExpressionBuilder.s_resourceProviderFactory.CreateGlobalResourceProvider(classKey);
+            EnsureResourceProviderFactory();
+            var provider = _sResourceProviderFactory.CreateGlobalResourceProvider(classKey);
             return provider.GetObject(resourceKey, culture);
         }
 
@@ -41,21 +41,21 @@ namespace Bocce
         {
             Debug.WriteLine(String.Format(CultureInfo.InvariantCulture, "ExternalResourceExpressionBuilder.EvaluateExpression({0}, {1}, {2}, {3})", target, entry, parsedData, context));
 
-            ExternalResourceExpressionFields fields = parsedData as ExternalResourceExpressionFields;
+            var fields = parsedData as ExternalResourceExpressionFields;
 
-            ExternalResourceExpressionBuilder.EnsureResourceProviderFactory();
-            IResourceProvider provider = ExternalResourceExpressionBuilder.s_resourceProviderFactory.CreateGlobalResourceProvider(fields.ClassKey);
+            EnsureResourceProviderFactory();
+            IResourceProvider provider = _sResourceProviderFactory.CreateGlobalResourceProvider(fields.ClassKey);
 
             return provider.GetObject(fields.ResourceKey, null);
         }
 
-        public override System.CodeDom.CodeExpression GetCodeExpression(BoundPropertyEntry entry, object parsedData, ExpressionBuilderContext context)
+        public override CodeExpression GetCodeExpression(BoundPropertyEntry entry, object parsedData, ExpressionBuilderContext context)
         {
             Debug.WriteLine(String.Format(CultureInfo.InvariantCulture, "ExternalResourceExpressionBuilder.GetCodeExpression({0}, {1}, {2})", entry, parsedData, context));
 
-            ExternalResourceExpressionFields fields = parsedData as ExternalResourceExpressionFields;
+            var fields = parsedData as ExternalResourceExpressionFields;
 
-            CodeMethodInvokeExpression exp = new CodeMethodInvokeExpression(new CodeTypeReferenceExpression(typeof(ExternalResourceExpressionBuilder)), "GetGlobalResourceObject", new CodePrimitiveExpression(fields.ClassKey), new CodePrimitiveExpression(fields.ResourceKey));
+            var exp = new CodeMethodInvokeExpression(new CodeTypeReferenceExpression(typeof(ExternalResourceExpressionBuilder)), "GetGlobalResourceObject", new CodePrimitiveExpression(fields.ClassKey), new CodePrimitiveExpression(fields.ResourceKey));
 
             return exp;
         }
@@ -69,11 +69,10 @@ namespace Bocce
                 throw new ArgumentException(String.Format(Thread.CurrentThread.CurrentUICulture, "Too few parameters: {0}. Must provide a resource assembly name, resource type and resource key in the format '[AssemblyName]|[ResourceType], ResourceKey'.", expression));
             }
 
-            ExternalResourceExpressionFields fields = null;
-            string classKey = null;
-            string resourceKey = null;
+            string classKey;
+            string resourceKey;
 
-            string[] expParams = expression.Split(new char[] { ',' });
+            var expParams = expression.Split(new[] { ',' });
 
             if (expParams.Length > 2)
             {
@@ -89,12 +88,12 @@ namespace Bocce
                 resourceKey = expParams[1].Trim();
             }
 
-            fields = new ExternalResourceExpressionFields(classKey, resourceKey);
+            var fields = new ExternalResourceExpressionFields(classKey, resourceKey);
 
-            ExternalResourceExpressionBuilder.EnsureResourceProviderFactory();
-            IResourceProvider rp = ExternalResourceExpressionBuilder.s_resourceProviderFactory.CreateGlobalResourceProvider(fields.ClassKey);
+            EnsureResourceProviderFactory();
+            var rp = _sResourceProviderFactory.CreateGlobalResourceProvider(fields.ClassKey);
 
-            object res = rp.GetObject(fields.ResourceKey, CultureInfo.InvariantCulture);
+            var res = rp.GetObject(fields.ResourceKey, CultureInfo.InvariantCulture);
 
             if (res == null)
             {
@@ -106,9 +105,9 @@ namespace Bocce
 
         private static void EnsureResourceProviderFactory()
         {
-            if (ExternalResourceExpressionBuilder.s_resourceProviderFactory == null)
+            if (_sResourceProviderFactory == null)
             {
-                ExternalResourceExpressionBuilder.s_resourceProviderFactory = new ExternalResourceProviderFactory();
+                _sResourceProviderFactory = new ExternalResourceProviderFactory();
             }
         }
 
@@ -126,27 +125,12 @@ namespace Bocce
     {
         internal ExternalResourceExpressionFields(string classKey, string resourceKey)
         {
-            this.m_classKey = classKey;
-            this.m_resourceKey = resourceKey;
+            ClassKey = classKey;
+            ResourceKey = resourceKey;
         }
 
-        public string ClassKey
-        {
-            get
-            {
-                return this.m_classKey;
-            }
-        }
+        public string ClassKey { get; private set; }
 
-        public string ResourceKey
-        {
-            get
-            {
-                return this.m_resourceKey;
-            }
-        }
-
-        private string m_classKey;
-        private string m_resourceKey;
+        public string ResourceKey { get; private set; }
     }
 }

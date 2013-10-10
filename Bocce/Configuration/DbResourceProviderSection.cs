@@ -11,31 +11,31 @@ namespace Bocce.Configuration
 			return (DbResourceProviderSection)ConfigurationManager.GetSection(SectionName);
 		}
 
-		private const string _databaseNameProperty = "databaseName";
+		private const string DatabaseNameProperty = "databaseName";
 
-		[ConfigurationProperty(_databaseNameProperty, IsRequired = true)]
+		[ConfigurationProperty(DatabaseNameProperty, IsRequired = true)]
 		public string DatabaseName
 		{
-			get { return (string)this[_databaseNameProperty]; }
-			set { this[_databaseNameProperty] = value; }
+			get { return (string)this[DatabaseNameProperty]; }
+			set { this[DatabaseNameProperty] = value; }
 		}
 
-		private const string _getResourcesCommandProperty = "getResourcesCommand";
+		private const string GetResourcesCommandProperty = "getResourcesCommand";
 
-		[ConfigurationProperty(_getResourcesCommandProperty, IsRequired = false)]
+		[ConfigurationProperty(GetResourcesCommandProperty, IsRequired = false)]
 		public string GetResourcesCommand
 		{
-			get { return (string)this[_getResourcesCommandProperty]; }
-			set { this[_getResourcesCommandProperty] = value; }
+			get { return (string)this[GetResourcesCommandProperty]; }
+			set { this[GetResourcesCommandProperty] = value; }
 		}
 
-		private const string _defaultCultureProperty = "defaultCulture";
+		private const string DefaultCultureProperty = "defaultCulture";
 
-		[ConfigurationProperty(_defaultCultureProperty, IsRequired = false)]
+		[ConfigurationProperty(DefaultCultureProperty, IsRequired = false)]
 		public string DefaultCulture
 		{
-			get { return (string)this[_defaultCultureProperty]; }
-			set { this[_defaultCultureProperty] = value; }
+			get { return (string)this[DefaultCultureProperty]; }
+			set { this[DefaultCultureProperty] = value; }
 		}
 
 		internal string ConnectionString

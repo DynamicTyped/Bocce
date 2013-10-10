@@ -23,7 +23,7 @@ namespace Bocce
 		public override IResourceProvider CreateLocalResourceProvider(string virtualPath)
 		{
 			// we should always get a path from the runtime
-			string classKey = virtualPath;
+			var classKey = virtualPath;
 
 			// TODO: Figure out why they're doing this.
 			if (!string.IsNullOrEmpty(virtualPath))
