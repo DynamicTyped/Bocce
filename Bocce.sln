@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bocce", "Bocce\Bocce.csproj", "{46800311-D2CC-4672-8FDA-090D2D0A3DD6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{29E56843-FEA8-4EC3-AF40-1A99FE5324BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bocce.Test", "Bocce.Test\Bocce.Test.csproj", "{1A5E1862-96D4-4B20-A7F3-AE2C40103DA0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46800311-D2CC-4672-8FDA-090D2D0A3DD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46800311-D2CC-4672-8FDA-090D2D0A3DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46800311-D2CC-4672-8FDA-090D2D0A3DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46800311-D2CC-4672-8FDA-090D2D0A3DD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A5E1862-96D4-4B20-A7F3-AE2C40103DA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A5E1862-96D4-4B20-A7F3-AE2C40103DA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A5E1862-96D4-4B20-A7F3-AE2C40103DA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A5E1862-96D4-4B20-A7F3-AE2C40103DA0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1A5E1862-96D4-4B20-A7F3-AE2C40103DA0} = {29E56843-FEA8-4EC3-AF40-1A99FE5324BA}
+	EndGlobalSection
+EndGlobal
