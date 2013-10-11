@@ -101,3 +101,10 @@ public static MvcHtmlString Localize(this HtmlHelper htmlHelper, string resource
 	return new MvcHtmlString(resourceKey.Localize(resourceType));
 }
 ```
+Used in a view:
+```csharp
+// Localize a string using current culture
+@Html.Localize("resourceType", "resourceKey")
+// Localize a string specifying a culture
+@Html.Localize("resourceType", "resourceKey", "en-GB")
+```
