@@ -9,8 +9,8 @@ namespace Bocce
 		public override IResourceProvider CreateGlobalResourceProvider(string classKey)
 		{
 			var config = DbResourceProviderSection.GetSection();
-			var accessor = new DbResourceAccessor(config.ConnectionString);
-			CultureInfo defaultCulture = CultureInfo.InvariantCulture;
+			var accessor = new DbResourceAccessor(config.ConnectionString, config.SchemaName, config.TableName);
+			var defaultCulture = CultureInfo.InvariantCulture;
 
 			if (config.DefaultCulture != null)
 			{

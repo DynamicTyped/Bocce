@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Bocce.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -59,7 +60,9 @@ namespace Bocce.Test
 		public void ConstructorTest()
 		{
 			const string connectionString = "Something";
-			object target = new DbResourceAccessor(connectionString);
+		    const string schema = "dbo";
+		    const string table = "Table";
+			object target = new DbResourceAccessor(connectionString, schema, table);
 			Assert.IsInstanceOfType(target, typeof(DbResourceAccessor));
 		}
 
@@ -67,14 +70,14 @@ namespace Bocce.Test
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void constructor_throws_argument_null_exception_when_connection_string_is_null()
 		{
-			new DbResourceAccessor(null);
+			new DbResourceAccessor(null,"schema", "table");
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void constructor_throws_argument_null_exception_when_connection_string_is_empty()
 		{
-			new DbResourceAccessor(string.Empty);
+			new DbResourceAccessor(string.Empty, "schema", "table");
 		}
 
 		/// <summary>
@@ -83,8 +86,12 @@ namespace Bocce.Test
 		[TestMethod]
 		public void get_resources()
 		{
+            var config = DbResourceProviderSection.GetSection();
+
 			var target = new DbResourceAccessor(
-                ConfigurationManager.ConnectionStrings["SQLConnectionString"].ConnectionString);
+                ConfigurationManager.ConnectionStrings["SQLConnectionString"].ConnectionString,
+                config.SchemaName,
+                config.TableName);
 
 			const string resourceType = UnitTestHelper.ResourceType;
 			const string cultureCode = "en-US";
@@ -108,7 +115,7 @@ namespace Bocce.Test
 		public void connection_string()
 		{
 			const string connectionString = "Don't Care";
-			var target = new DbResourceAccessor(connectionString);
+			var target = new DbResourceAccessor(connectionString, "schema", "table");
 			const string expected = "New Value";
 		    target.ConnectionString = expected;
 			var actual = target.ConnectionString;
@@ -122,7 +129,7 @@ namespace Bocce.Test
 		public void get_resources_command()
 		{
 			const string connectionString = "Don't Care";
-			var target = new DbResourceAccessor(connectionString);
+			var target = new DbResourceAccessor(connectionString,"schema", "table");
 			const string expected = "New Value";
 		    target.GetResourcesCommand = expected;
 			var actual = target.GetResourcesCommand;

@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using Bocce.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Resources;
 using System.Threading;
@@ -59,10 +60,12 @@ namespace Bocce.Test
 
 		private static DbResourceProvider CreateDefaultResourceProvider(string resourceType = "DBResourceProviderTest")
 		{
+            var config = DbResourceProviderSection.GetSection();
+
 			return new DbResourceProvider(
 				resourceType,
 				CultureInfo.InstalledUICulture,
-                new DbResourceAccessor(ConfigurationManager.ConnectionStrings["SQLConnectionString"].ConnectionString));
+                new DbResourceAccessor(ConfigurationManager.ConnectionStrings["SQLConnectionString"].ConnectionString, config.SchemaName, config.TableName));
 		}
 
 		/// <summary>
@@ -154,7 +157,7 @@ namespace Bocce.Test
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void constructor_throws_argument_null_exception_if_default_culture_is_null()
 		{
-			new DbResourceProvider("Don't Care", null, new DbResourceAccessor("Don't Care"));
+			new DbResourceProvider("Don't Care", null, new DbResourceAccessor("Don't Care", "schema", "table"));
 		}
 
 		[TestMethod]

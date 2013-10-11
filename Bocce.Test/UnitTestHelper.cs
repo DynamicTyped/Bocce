@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using Bocce.Configuration;
 using Dapper;
 
 namespace Bocce.Test
@@ -8,32 +9,38 @@ namespace Bocce.Test
     public static class UnitTestHelper
     {
         public const string ResourceType = "DBResourceProviderTest";
-        public static readonly IDbConnection _connection;
+        public static readonly IDbConnection Connection;
+        private static string Schema { get; set; }
+        private static string Table { get; set; }
 
         static UnitTestHelper()
         {
-            _connection =
+            var config = DbResourceProviderSection.GetSection();
+            Schema = config.SchemaName;
+            Table = config.TableName;
+
+            Connection =
                 new SqlConnection(ConfigurationManager.ConnectionStrings["SQLConnectionString"].ConnectionString);
 
-            _connection.Open();
+            Connection.Open();
         }
 
         public static void CleanUpConnection()
         {
-            if (null != _connection)
+            if (null != Connection)
             {
-                if (_connection.State == ConnectionState.Open)
-                    _connection.Close();
+                if (Connection.State == ConnectionState.Open)
+                    Connection.Close();
 
-                _connection.Dispose();
+                Connection.Dispose();
             }
             
         }
 
         public static void SetupTable()
         {
-            if (_connection.State != ConnectionState.Open)
-                _connection.Open();
+            if (Connection.State != ConnectionState.Open)
+                Connection.Open();
 
             CleanUpTable();
 
@@ -48,8 +55,8 @@ namespace Bocce.Test
 
         private static void InsertTestRow(string resourceType, string cultureCode, string resourceKey, string resourceValue)
         {
-            _connection.Execute(string.Format("INSERT INTO WebLocalization.Resources VALUES ('{0}','{1}','{2}','{3}')",
-                                              resourceType, cultureCode, resourceKey, resourceValue));
+            Connection.Execute(string.Format("INSERT INTO {0}.{1} VALUES ('{2}','{3}','{4}','{5}')",
+                                              Schema.QuoteSqlName(), Table.QuoteSqlName(), resourceType, cultureCode, resourceKey, resourceValue));
         }
 
         public static void CleanUp()
@@ -60,17 +67,17 @@ namespace Bocce.Test
 
         public static void CleanUpTable()
         {
-            _connection.Execute(string.Format("DELETE FROM WebLocalization.Resources WHERE resource_type = '{0}'", ResourceType));
+            Connection.Execute(string.Format("DELETE FROM {0}.{1} WHERE resource_type = '{2}'", Schema.QuoteSqlName(), Table.QuoteSqlName(), ResourceType));
         }
 
         private static void Dispose()
         {
-            if (null != _connection)
+            if (null != Connection)
             {
-                if (_connection.State == ConnectionState.Open)
-                    _connection.Close();
+                if (Connection.State == ConnectionState.Open)
+                    Connection.Close();
 
-                _connection.Dispose();
+                Connection.Dispose();
             }
         }
     }

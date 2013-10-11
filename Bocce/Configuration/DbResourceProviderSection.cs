@@ -42,5 +42,21 @@ namespace Bocce.Configuration
 		{
 			get { return ConfigurationManager.ConnectionStrings[DatabaseName].ConnectionString; }
 		}
+
+	    private const string SchemaNameProperty = "schema";
+	    [ConfigurationProperty(SchemaNameProperty, IsRequired = true)]
+	    public string SchemaName
+	    {
+            get { return (string) this[SchemaNameProperty]; }
+            set { this[SchemaNameProperty] = value; }
+	    }
+
+	    private const string TableNameProperty = "tableName";
+	    [ConfigurationProperty(TableNameProperty, IsRequired = true)]
+	    public string TableName
+	    {
+            get { return (string)this[TableNameProperty]; }
+            set { this[TableNameProperty] = value; }
+	    }
 	}
 }
