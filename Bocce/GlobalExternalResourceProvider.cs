@@ -13,10 +13,10 @@ namespace Bocce
     /// </summary>
     public class GlobalExternalResourceProvider : IResourceProvider
     {
-        private readonly string _mClassKey;
-        private readonly string _mAssemblyName;
+        private readonly string _classKey;
+        private readonly string _assemblyName;
 
-        private ResourceManager _mResourceManager;
+        private ResourceManager _resourceManager;
 
         /// <summary>
         /// Constructs an instance of the provider with the specified
@@ -35,8 +35,8 @@ namespace Bocce
             if (classKey.IndexOf('|') > 0)
             {
                 var textArray = classKey.Split('|');
-                _mAssemblyName = textArray[0];
-                _mClassKey = textArray[1];
+                _assemblyName = textArray[0];
+                _classKey = textArray[1];
             }
             else
             {
@@ -52,13 +52,13 @@ namespace Bocce
         /// </summary>
         private void EnsureResourceManager()
         {
-            if (_mResourceManager == null)
+            if (_resourceManager == null)
             {
                 lock (this)
                 {
-                    var asm = Assembly.Load(_mAssemblyName);
-                    var rm = new ResourceManager(String.Format(CultureInfo.InvariantCulture, "{0}.{1}", _mAssemblyName, _mClassKey), asm);
-                    _mResourceManager = rm;
+                    var asm = Assembly.Load(_assemblyName);
+                    var rm = new ResourceManager(String.Format(CultureInfo.InvariantCulture, "{0}.{1}", _assemblyName, _classKey), asm);
+                    _resourceManager = rm;
                 }
             }
         }
@@ -83,7 +83,7 @@ namespace Bocce
             {
                 culture = CultureInfo.CurrentUICulture;
             }
-            return _mResourceManager.GetObject(resourceKey, culture);
+            return _resourceManager.GetObject(resourceKey, culture);
 
         }
 
