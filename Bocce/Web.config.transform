@@ -4,7 +4,7 @@
         <section name="dbResourceProvider" type="Bocce.Configuration.DbResourceProviderSection, Bocce" />
     </configSections>
     <system.web>
-        <globalization uiCulture="auto" culture="auto" resourceProviderFactoryType="Bocce.DBResourceProviderFactory, Bocce, Version=1.0.0.0, Culture=neutral" />
+        <globalization uiCulture="auto" culture="auto" resourceProviderFactoryType="Bocce.DbResourceProviderFactory, Bocce, Version=1.0.0.0, Culture=neutral" />
     </system.web>
     <dbResourceProvider databaseName="SQLConnectionString" defaultCulture="en-US" tableName="Localization" schema="dbo"  />
 </configuration>
