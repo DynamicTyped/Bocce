@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <configSections>
+        <section name="dbResourceProvider" type="Bocce.Configuration.DbResourceProviderSection, Bocce" />
+    </configSections>
+    <system.web>
+        <globalization uiCulture="auto" culture="auto" resourceProviderFactoryType="Bocce.DBResourceProviderFactory, Bocce, Version=1.0.0.0, Culture=neutral" />
+    </system.web>
+    <dbResourceProvider databaseName="SQLConnectionString" defaultCulture="en-US" tableName="Localization" schema="dbo"  />
+</configuration>
