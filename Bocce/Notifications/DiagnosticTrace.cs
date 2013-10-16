@@ -19,7 +19,7 @@ namespace Bocce.Notifications
 
         public void ResourceCleared(string resourceType)
         {
-            Trace(1001, TraceEventType.Information, "ResourceCleared", resourceType));
+            Trace(1001, TraceEventType.Information, "ResourceCleared", resourceType);
         }
 
         public void ResourceHit(string cultureCode, string key, string resourceType)
