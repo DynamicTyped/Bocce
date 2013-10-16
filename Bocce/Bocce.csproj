@@ -60,6 +60,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resource.cs" />
     <Compile Include="StringExtentions.cs" />
   </ItemGroup>
   <ItemGroup>

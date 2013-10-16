@@ -84,17 +84,17 @@ namespace Bocce
 				{
 					if (fellBack)
 					{
-                        _trace.ResourceFellBack(culture.Name, resourceKey, _resourceType);
+                        _trace.ResourceFellBack(new Resource(){Culture = culture,ResourceKey = resourceKey, ResourceType = _resourceType});
 					}
 
-                    _trace.ResourceHit(culture.Name, resourceKey, _resourceType);
+                    _trace.ResourceHit(new Resource() { Culture = culture, ResourceKey = resourceKey, ResourceType = _resourceType });
 					return resourceValue;
 				}
 
 				fellBack = true;
 			}
 
-            _trace.ResourceMiss(culture.Name, resourceKey, _resourceType);
+            _trace.ResourceMiss(new Resource() { Culture = culture, ResourceKey = resourceKey, ResourceType = _resourceType });
             
 			return null;
 		}
