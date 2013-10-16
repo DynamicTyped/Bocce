@@ -58,5 +58,13 @@ namespace Bocce.Configuration
             get { return (string)this[TableNameProperty]; }
             set { this[TableNameProperty] = value; }
 	    }
+
+	    private const string TraceMatchesProperty = "traceMatches";
+	    [ConfigurationProperty(TraceMatchesProperty, DefaultValue = false)]
+	    public bool TraceMatches
+	    {
+            get { return (bool) this[TraceMatchesProperty]; }
+            set { this[TraceMatchesProperty] = value; }
+	    }
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Bocce.Configuration;
 using Bocce.Diagnostics;
 
 namespace Bocce.Notifications
@@ -24,7 +25,11 @@ namespace Bocce.Notifications
 
         public void ResourceHit(string cultureCode, string key, string resourceType)
         {
-            Trace(1001, TraceEventType.Verbose, "ResourceMiss", string.Format("{0} - {1} - {2}", resourceType, cultureCode, key));
+            if (DbResourceProviderSection.GetSection().TraceMatches)
+            {
+                Trace(1001, TraceEventType.Verbose, "ResourceMiss",
+                      string.Format("{0} - {1} - {2}", resourceType, cultureCode, key));
+            }
         }
 
         private static void Trace(int id, TraceEventType type, string identifier, string description)
