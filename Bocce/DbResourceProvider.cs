@@ -5,6 +5,7 @@ using System.Linq;
 using System.Resources;
 using System.Threading;
 using System.Web.Compilation;
+using Bocce.Notifications;
 
 namespace Bocce
 {
@@ -25,6 +26,8 @@ namespace Bocce
 		// Resource cache and lock object
 		private readonly Dictionary<CultureInfo, Dictionary<string, string>> _resourceCache = new Dictionary<CultureInfo, Dictionary<string, string>>();
 		private readonly ReaderWriterLockSlim _resourceCacheLock = new ReaderWriterLockSlim();
+
+	    private readonly DiagnosticTrace _trace;
 
 	    /// <summary>
 	    /// Constructs this instance of the provider supplying a resource type for the instance. 
@@ -47,6 +50,8 @@ namespace Bocce
 			{
 				Instances.AddLast(new WeakReference(this));
 			}
+
+            _trace = new DiagnosticTrace();
 		}
 
 		#region IResourceProvider Members
@@ -79,17 +84,18 @@ namespace Bocce
 				{
 					if (fellBack)
 					{
-                        //TODO: Add some kind of tracing for ResourceRetrievalFellBack
+                        _trace.ResourceFellBack(culture.Name, resourceKey, _resourceType);
 					}
 
+                    _trace.ResourceHit(culture.Name, resourceKey, _resourceType);
 					return resourceValue;
 				}
 
 				fellBack = true;
 			}
 
-            //TODO: Add some kind of tracing for ResourceRetrievalMissed
-			
+            _trace.ResourceMiss(culture.Name, resourceKey, _resourceType);
+            
 			return null;
 		}
 
@@ -187,9 +193,7 @@ namespace Bocce
 			try
 			{
 				_resourceCache.Clear();
-
-                // TODO: add tracing for ResourceCacheCleared
-				
+                _trace.ResourceCleared(_resourceType);
 			}
 			finally
 			{

@@ -47,10 +47,13 @@
     <Compile Include="DbResourceProvider.cs" />
     <Compile Include="DbResourceProviderFactory.cs" />
     <Compile Include="DbResourceReader.cs" />
+    <Compile Include="Diagnostics\TraceRecord.cs" />
+    <Compile Include="Diagnostics\TraceSourceExtensions.cs" />
     <Compile Include="ExternalResourceExpressionBuilder.cs" />
     <Compile Include="ExternalResourceProviderFactory.cs" />
     <Compile Include="GlobalExternalResourceProvider.cs" />
     <Compile Include="IDbResourceAccessor.cs" />
+    <Compile Include="Notifications\DiagnosticTrace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -70,7 +73,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.fr.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\Build\Bocce.settings.targets" />
