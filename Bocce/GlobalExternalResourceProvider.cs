@@ -40,7 +40,7 @@ namespace Bocce
             }
             else
             {
-                throw new ArgumentException(String.Format(Thread.CurrentThread.CurrentUICulture, "Parameter invalid: {0}. Must provide a resource assembly name and resource type in the format '[AssemblyName]|[ResourceType]'.", classKey));
+                throw new ArgumentException(String.Format(Thread.CurrentThread.CurrentUICulture, Properties.Resources.parameterInvalid, classKey));
             }
         }
 

@@ -66,7 +66,7 @@ namespace Bocce
 
             if (string.IsNullOrEmpty(expression))
             {
-                throw new ArgumentException(String.Format(Thread.CurrentThread.CurrentUICulture, "Too few parameters: {0}. Must provide a resource assembly name, resource type and resource key in the format '[AssemblyName]|[ResourceType], ResourceKey'.", expression));
+                throw new ArgumentException(String.Format(Thread.CurrentThread.CurrentUICulture, Properties.Resources.tooFewParameters, expression));
             }
 
             string classKey;
@@ -76,11 +76,11 @@ namespace Bocce
 
             if (expParams.Length > 2)
             {
-                throw new ArgumentException(String.Format(Thread.CurrentThread.CurrentUICulture, "Too many parameters: {0}. Must provide a resource assembly name, resource type and resouce key in the format '[AssemblyName]|[ResourceType], ResourceKey'.", expression));
+                throw new ArgumentException(String.Format(Thread.CurrentThread.CurrentUICulture, Properties.Resources.tooManyParameters, expression));
             }
             if (expParams.Length == 1)
             {
-                throw new ArgumentException(String.Format(Thread.CurrentThread.CurrentUICulture, "Too few parameters: {0}. Must provide a resource assembly name, resource type and resource key in the format '[AssemblyName]|[ResourceType], ResourceKey'.", expression));
+                throw new ArgumentException(String.Format(Thread.CurrentThread.CurrentUICulture, Properties.Resources.tooFewParameters, expression));
             }
             else
             {
@@ -97,7 +97,7 @@ namespace Bocce
 
             if (res == null)
             {
-                throw new ArgumentException(String.Format(Thread.CurrentThread.CurrentUICulture, "Resource not found: {0}", fields.ResourceKey));
+                throw new ArgumentException(String.Format(Thread.CurrentThread.CurrentUICulture, Properties.Resources.notFound, fields.ResourceKey));
             }
 
             return fields;

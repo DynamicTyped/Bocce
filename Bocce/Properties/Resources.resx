@@ -120,4 +120,16 @@
   <data name="localResourceNotSupported" xml:space="preserve">
     <value>{0} does not support local resources.</value>
   </data>
+  <data name="notFound" xml:space="preserve">
+    <value>Resource not found: {0}</value>
+  </data>
+  <data name="parameterInvalid" xml:space="preserve">
+    <value>Parameter invalid: {0}. Must provide a resource assembly name and resource type in the format '[AssemblyName]|[ResourceType]'.</value>
+  </data>
+  <data name="tooFewParameters" xml:space="preserve">
+    <value>Too few parameters: {0}. Must provide a resource assembly name, resource type and resource key in the format '[AssemblyName]|[ResourceType], ResourceKey'.</value>
+  </data>
+  <data name="tooManyParameters" xml:space="preserve">
+    <value>Too many parameters: {0}. Must provide a resource assembly name, resource type and resouce key in the format '[AssemblyName]|[ResourceType], ResourceKey'.</value>
+  </data>
 </root>

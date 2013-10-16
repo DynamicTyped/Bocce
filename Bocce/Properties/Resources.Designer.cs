@@ -68,5 +68,41 @@ namespace Bocce.Properties {
                 return ResourceManager.GetString("localResourceNotSupported", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource not found: {0}.
+        /// </summary>
+        internal static string notFound {
+            get {
+                return ResourceManager.GetString("notFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter invalid: {0}. Must provide a resource assembly name and resource type in the format &apos;[AssemblyName]|[ResourceType]&apos;..
+        /// </summary>
+        internal static string parameterInvalid {
+            get {
+                return ResourceManager.GetString("parameterInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Too few parameters: {0}. Must provide a resource assembly name, resource type and resource key in the format &apos;[AssemblyName]|[ResourceType], ResourceKey&apos;..
+        /// </summary>
+        internal static string tooFewParameters {
+            get {
+                return ResourceManager.GetString("tooFewParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Too many parameters: {0}. Must provide a resource assembly name, resource type and resouce key in the format &apos;[AssemblyName]|[ResourceType], ResourceKey&apos;..
+        /// </summary>
+        internal static string tooManyParameters {
+            get {
+                return ResourceManager.GetString("tooManyParameters", resourceCulture);
+            }
+        }
     }
 }
