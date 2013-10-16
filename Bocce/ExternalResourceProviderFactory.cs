@@ -21,7 +21,7 @@ namespace Bocce
 
         public override IResourceProvider CreateLocalResourceProvider(string virtualPath)
         {
-            throw new NotSupportedException(String.Format(Thread.CurrentThread.CurrentUICulture, "{0} does not support local resources.", "ExternalResourceProviderFactory"));
+            throw new NotSupportedException(String.Format(Thread.CurrentThread.CurrentUICulture, Properties.Resources.localResourceNotSupported, GetType().FullName));
         }
     }
 }
