@@ -47,6 +47,7 @@
     <Compile Include="DbResourceProvider.cs" />
     <Compile Include="DbResourceProviderFactory.cs" />
     <Compile Include="DbResourceReader.cs" />
+    <Compile Include="Diagnostics\ResourceTraceRecord.cs" />
     <Compile Include="Diagnostics\TraceRecord.cs" />
     <Compile Include="Diagnostics\TraceSourceExtensions.cs" />
     <Compile Include="ExternalResourceExpressionBuilder.cs" />
