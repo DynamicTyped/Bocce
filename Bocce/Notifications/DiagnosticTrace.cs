@@ -8,7 +8,7 @@ using Bocce.Diagnostics;
 
 namespace Bocce.Notifications
 {
-    internal class DiagnosticTrace
+    internal class DiagnosticTrace : IDisposable
     {
         private static readonly TraceSource TraceSource = new TraceSource("Bocce");
         private readonly ReaderWriterLockSlim _cacheLock = new ReaderWriterLockSlim();
@@ -16,27 +16,27 @@ namespace Bocce.Notifications
 
         public void ResourceMiss(Resource resource)
         {
-            if (!DoesCacheExist(TraceEventType.Error, "ResourceMiss", resource))
+            if (!DoesCacheExist("ResourceMiss", resource))
                 Trace(1001, TraceEventType.Error, "ResourceMiss", string.Format("{0} - {1} - {2}", resource.ResourceType, resource.Culture.Name, resource.ResourceKey));
         }
 
         public void ResourceFellBack(Resource resource)
         {
-            if (!DoesCacheExist(TraceEventType.Warning, "ResourceFellBack", resource))
+            if (!DoesCacheExist("ResourceFellBack", resource))
                 Trace(1002, TraceEventType.Warning, "ResourceFellBack", string.Format("{0} - {1} - {2}", resource.ResourceType, resource.Culture.Name, resource.ResourceKey));
         }
 
         public void ResourceCleared(string resourceType)
         {
             ClearCache(resourceType);
-            if (!DoesCacheExist(TraceEventType.Information, "ResourceCleared", new Resource(){ResourceType = resourceType}))
+            if (!DoesCacheExist("ResourceCleared", new Resource(){ResourceType = resourceType}))
                 Trace(1003, TraceEventType.Information, "ResourceCleared", resourceType);
         }
 
         public void ResourceHit(Resource resource)
         {
             if (DbResourceProviderSection.GetSection().TraceMatches &&
-                !DoesCacheExist(TraceEventType.Verbose, "ResourceHit", resource))
+                !DoesCacheExist("ResourceHit", resource))
             {
                 Trace(1004, TraceEventType.Verbose, "ResourceHit",
                       string.Format("{0} - {1} - {2}", resource.ResourceType, resource.Culture.Name, resource.ResourceKey));
@@ -51,11 +51,10 @@ namespace Bocce.Notifications
         /// <summary>
         /// Checks for existence of cache and adds if not found
         /// </summary>
-        /// <param name="type"></param>
         /// <param name="identifier"></param>
         /// <param name="resource"></param>
         /// <returns></returns>
-        private bool DoesCacheExist(TraceEventType type, string identifier, Resource resource)
+        private bool DoesCacheExist(string identifier, Resource resource)
         {
             _cacheLock.EnterUpgradeableReadLock();
             try
@@ -120,6 +119,25 @@ namespace Bocce.Notifications
             finally
             {
                 _cacheLock.ExitWriteLock();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public void Close()
+        {
+            _cacheLock.Dispose();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Close();
             }
         }
     }

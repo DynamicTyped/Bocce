@@ -54,6 +54,13 @@ namespace Bocce
             _trace = new DiagnosticTrace();
 		}
 
+        internal DbResourceProvider(string resourceType, CultureInfo defaultCulture, IDbResourceAccessor accessor,
+                                    DiagnosticTrace trace)
+            : this(resourceType, defaultCulture, accessor)
+        {
+            _trace = trace;
+        }
+
 		#region IResourceProvider Members
 
 		/// <summary>
