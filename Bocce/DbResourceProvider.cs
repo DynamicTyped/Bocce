@@ -27,7 +27,7 @@ namespace Bocce
 		private readonly Dictionary<CultureInfo, Dictionary<string, string>> _resourceCache = new Dictionary<CultureInfo, Dictionary<string, string>>();
 		private readonly ReaderWriterLockSlim _resourceCacheLock = new ReaderWriterLockSlim();
 
-	    private readonly DiagnosticTrace _trace;
+	    private readonly IDiagnosticTrace _trace;
 
 	    /// <summary>
 	    /// Constructs this instance of the provider supplying a resource type for the instance. 
@@ -55,7 +55,7 @@ namespace Bocce
 		}
 
         internal DbResourceProvider(string resourceType, CultureInfo defaultCulture, IDbResourceAccessor accessor,
-                                    DiagnosticTrace trace)
+                                    IDiagnosticTrace trace)
             : this(resourceType, defaultCulture, accessor)
         {
             _trace = trace;

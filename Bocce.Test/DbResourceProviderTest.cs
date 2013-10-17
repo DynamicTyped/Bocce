@@ -219,6 +219,20 @@ namespace Bocce.Test
 			Assert.AreEqual(0, dbResourceProvider.CacheCount, "The cache still contains items.");
 		}
 
+        [TestMethod]
+        public void CacheTest()
+        {
+            var cultureInfo = new CultureInfo("fr-FR");
+            const string resourceKey = "get_object_does_not_fallback";
+
+            var dBResourceProvider = CreateDefaultResourceProvider();
+            var resourceValue = dBResourceProvider.GetObject(resourceKey, cultureInfo);
+            var resourceValue2 = dBResourceProvider.GetObject(resourceKey, cultureInfo);
+
+            Assert.Inconclusive();
+
+        }
+
 		[TestMethod]
 		public void get_resource_reader()
 		{

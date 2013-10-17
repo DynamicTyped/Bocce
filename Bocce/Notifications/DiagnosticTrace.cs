@@ -7,12 +7,11 @@ using Bocce.Diagnostics;
 
 namespace Bocce.Notifications
 {
-    internal class DiagnosticTrace 
+    internal class DiagnosticTrace : IDiagnosticTrace
     {
         private static readonly TraceSource TraceSource = new TraceSource("Bocce");
-        private readonly ConcurrentDictionary<string, Tuple<string, string, string>> _cache = new ConcurrentDictionary<string, Tuple<string, string, string>>();
+        internal readonly ConcurrentDictionary<string, Tuple<string, string, string>> _cache = new ConcurrentDictionary<string, Tuple<string, string, string>>();
         
-
         public void ResourceMiss(Resource resource)
         {
             Trace(1001, TraceEventType.Error, "OnResourceMiss", string.Format("Resource Missed: {0} - {1} - {2}", resource.ResourceType, resource.Culture.Name, resource.ResourceKey), resource);
