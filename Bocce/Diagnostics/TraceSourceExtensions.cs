@@ -12,6 +12,7 @@ namespace Bocce.Diagnostics
             if (trace == null) { throw new ArgumentNullException("trace"); }
 
              traceSource.TraceData(trace.Severity, id, trace.ToXElement().CreateNavigator());
+            
         }
     }
 }

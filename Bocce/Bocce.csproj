@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.1.13\lib\net40\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -43,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\DbResourceProviderSection.cs" />
+    <Compile Include="Diagnostics\DatabaseListener.cs" />
     <Compile Include="DbResourceAccessor.cs" />
     <Compile Include="DbResourceProvider.cs" />
     <Compile Include="DbResourceProviderFactory.cs" />
@@ -69,6 +75,7 @@
     <Content Include="Web.config.transform" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\Bocce.nuspec" />
   </ItemGroup>
   <ItemGroup>
