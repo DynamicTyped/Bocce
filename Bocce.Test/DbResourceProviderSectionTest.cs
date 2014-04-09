@@ -44,7 +44,7 @@ namespace Bocce.Test
 		public void connection_string_returns_value_from_app_config()
 		{
 			var target = DbResourceProviderSection.GetSection();
-            var expected = ConfigurationManager.ConnectionStrings["SQLConnectionString"].ConnectionString;
+            var expected = ConfigurationManager.ConnectionStrings["testDatabase"].ConnectionString;
             var actual = target.ConnectionString;
 			Assert.AreEqual(expected, actual);
 		}
@@ -56,7 +56,7 @@ namespace Bocce.Test
 		public void database_name_returns_value_from_app_config()
 		{
 			var target = DbResourceProviderSection.GetSection();
-            const string expected = "SQLConnectionString";
+            const string expected = "testDatabase";
 			var actual = target.DatabaseName;
 			Assert.AreEqual(expected, actual);
 		}

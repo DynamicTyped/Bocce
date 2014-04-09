@@ -20,7 +20,7 @@ namespace Bocce.Test
             Table = config.TableName;
 
             Connection =
-                new SqlConnection(ConfigurationManager.ConnectionStrings["SQLConnectionString"].ConnectionString);
+                new SqlConnection(ConfigurationManager.ConnectionStrings["testDatabase"].ConnectionString);
 
             Connection.Open();
         }

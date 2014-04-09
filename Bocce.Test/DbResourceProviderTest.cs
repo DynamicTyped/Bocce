@@ -62,7 +62,7 @@ namespace Bocce.Test
 			return new DbResourceProvider(
 				resourceType,
 				CultureInfo.InstalledUICulture,
-                new DbResourceAccessor(ConfigurationManager.ConnectionStrings["SQLConnectionString"].ConnectionString, config.SchemaName, config.TableName));
+                new DbResourceAccessor(ConfigurationManager.ConnectionStrings["testDatabase"].ConnectionString, config.SchemaName, config.TableName));
 		}
 
 		/// <summary>
