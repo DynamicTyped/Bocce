@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using Bocce.Configuration;
 using Dapper;
 
@@ -24,7 +27,34 @@ namespace Bocce.Diagnostics
         {
             using(var connection = new SqlConnection(Connectionstring))
             {
-                connection.Execute(string.Format("INSERT INTO {0} ([name], event_type, [id], data) VALUES (@a, @b, @c, @d)", _table), new { a = source, b = eventType.ToString(), c = id, d = data.ToString() });
+                var localData = data.ToString();
+
+                // Try and match data to a TraceRecord and so we an write better output. ToString() on data is putting the running app info on.
+                // possible future enhancement of breaking it back to trace record and writing more discrete fields
+                try
+                {
+                    var navigator = data as XPathNavigator;
+                    if (navigator != null)
+                    {
+                        var xElement = navigator.UnderlyingObject as XElement;
+                        
+                        if (xElement != null)
+                        { 
+                            var singleOrDefault = xElement.Elements().SingleOrDefault(a => a.Name.LocalName == "Description");
+                            if (singleOrDefault != null)
+                            {
+                                localData = singleOrDefault.Value;
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    //reset
+                    localData = data.ToString();
+                }
+
+                connection.Execute(string.Format("INSERT INTO {0} ([name], event_type, [id], data) VALUES (@a, @b, @c, @d)", _table), new { a = source, b = eventType.ToString(), c = id, d = localData });
             }
         }
 
