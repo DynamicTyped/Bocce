@@ -31,10 +31,10 @@ Config
         name="dbResourceProvider" 
         type="Bocce.Configuration.DbResourceProviderSection, Bocce" />
 </configSections>
-<dbResourceProvider databaseName="SqlConnectionString" defaultCulture="en-US" schema="dbo" tableName="Localization" />
+<dbResourceProvider databaseName="SqlConnectionString" defaultCulture="en-US" schema="dbo" tableName="Localization" traceMatches="false" />
 ```
 
-Useage
+Usage
 ------
 ```csharp
 var resourceType = "HelpPage"
@@ -108,3 +108,54 @@ Used in a view:
 // Localize a string specifying a culture
 @Html.Localize("resourceType", "resourceKey", "en-GB")
 ```
+
+Tracing
+-------
+You have the ability to log various events for analysis. You set a [listener](http://msdn.microsoft.com/en-us/library/1txedc80(v=vs.110).aspx).
+
+The switch value will determine what gets written. 
+
+* Error - Resource miss
+* Warning - Resource fallback and miss
+* Information - Resource clear, fallback, and misses
+* Verbose - Resource hit (only when tracematches = true), clear, fallback, and miss
+
+Bocce also has a datbase listener to log to a database.
+
+Table creation scrip below. Schema and table name are up to you.
+
+```sql
+CREATE TABLE [dbo].[ResourceTrace](
+	[trace_key] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](50) NOT NULL,
+	[event_type] [nvarchar](50) NOT NULL,
+	[id] [varchar](50) NOT NULL,
+	[data] [nvarchar](2000) NOT NULL,
+	[insert_date] [datetime] NOT NULL,
+ CONSTRAINT [PK_Trace] PRIMARY KEY CLUSTERED 
+(
+	[trace_key] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [WebLocalization].[ResourceTrace] ADD  CONSTRAINT [DF_Trace_insert_date]  DEFAULT (getdate()) FOR [insert_date]
+GO
+```
+
+Config:
+
+```csharp
+<system.diagnostics>
+	<sources>
+	    <source name="Bocce" switchValue="Verbose">
+	        <listeners>
+	            <add name="databaseListner" type="Bocce.Diagnostics.DatabaseListener, Bocce" initializeData="[dbo].[ResourceTrace]"/>
+	        </listeners>
+	    </source>
+	</sources>
+	<trace autoflush="true"/>
+</system.diagnostics>
+```
+The initializeData filed is where you set the name of your table including the schema. It will use the same connection string defined for your resource table.
