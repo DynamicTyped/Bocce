@@ -9,8 +9,8 @@
     <projectUrl>https://github.com/DynamicTyped/Bocce</projectUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Initial Release</releaseNotes>
-    <copyright>Copyright 2014</copyright>
+		<releaseNotes>Bug fix for resource hit/miss tracing</releaseNotes>
+		<copyright>Copyright 2014</copyright>
     <tags>localization</tags>
   </metadata>
 </package>
